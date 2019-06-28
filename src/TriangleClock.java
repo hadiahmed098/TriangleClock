@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.Date;
 
 public class TriangleClock extends JFrame {
     public static void main(String[] args) {
@@ -14,11 +13,14 @@ public class TriangleClock extends JFrame {
         ClockBody clockBody = new ClockBody();
         add(clockBody);
 
-        setSize(500,500);
+        setMinimumSize(new Dimension(500, 500));
+        setResizable(false);
         setVisible(true);
 
-        while(true) {   //Repaints the frame constantly to force update the timestamp on the frame. Calling
-            repaint();  //JLabel's setText by itself was for some reason creating a new JLabel on top of the old one.
-        }               //This way lets the Swing Manager handle the repainting and labeling of JLabel.
+        while (true) {      //Repaints the frame constantly to force update the timestamp on the frame. Calling
+            repaint();      //JLabel's setText by itself was for some reason creating a new JLabel on top of the old one.
+                            //This way lets the Swing Manager handle the repainting and labeling of JLabel.
+
+        }
     }
 }
