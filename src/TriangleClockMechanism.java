@@ -15,9 +15,9 @@ public class TriangleClockMechanism extends JPanel {
         Graphics2D g2 = (Graphics2D) graphics;
 
         Calendar current = Calendar.getInstance();
-        Point2D hour = new Point2D.Double(ClockBody.BODY_COORDS[current.get(Calendar.HOUR)].getX(), ClockBody.BODY_COORDS[current.get(Calendar.HOUR)].getY());
-        Point2D minute = new Point2D.Double(ClockBody.BODY_COORDS[(int)current.get(Calendar.MINUTE)/5].getX(),ClockBody.BODY_COORDS[current.get(Calendar.MINUTE) /5].getY());
-        Point2D second = new Point2D.Double(ClockBody.BODY_COORDS[current.get(Calendar.SECOND) /5].getX(),ClockBody.BODY_COORDS[current.get(Calendar.SECOND) /5].getY());
+        Point2D hour = ClockBody.getPointOf(-(current.get(Calendar.HOUR)*30 -90),150,  Math.round(getWidth() /2), Math.round(getHeight() /2));
+        Point2D minute = ClockBody.getPointOf(-(current.get(Calendar.MINUTE)*6 -90),150,  Math.round(getWidth() /2), Math.round(getHeight() /2));
+        Point2D second = ClockBody.getPointOf(-(current.get(Calendar.SECOND)*6 -90),150,  Math.round(getWidth() /2), Math.round(getHeight() /2));
 
         g2.setStroke(new BasicStroke(10));
 
