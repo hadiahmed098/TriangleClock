@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TriangleClock extends JFrame {
     public static void main(String[] args) {
@@ -26,9 +28,14 @@ public class TriangleClock extends JFrame {
         setResizable(false);
         setVisible(true);
 
-        while (true) {      //Repaints the frame constantly to force update the graphics on the frame.
-            repaint();      //This way lets the Swing Manager handle the repainting of frame, otherwise frame never repaints.
-                            //Using a plain setText on JLabel was causing the label to be placed on top of the old one.
-        }
+        //Repaints the frame every 100 ms to force update the graphics on the frame.
+        //Uses a lambda to avoid creating an anonymous ActionListener every run.
+        Timer t = new Timer(100, e ->
+                repaint());
+
+        t.setRepeats(true);
+        t.setCoalesce(false);
+        t.start();
+
     }
 }

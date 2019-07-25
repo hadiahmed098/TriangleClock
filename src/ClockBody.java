@@ -66,8 +66,6 @@ public class ClockBody extends JPanel {
             g2.draw(lines[i]);
         }
 
-
-        //not sure why it works, but has something to do with how paintComponent is called
         timeString.setText(new SimpleDateFormat("hh:mm:ss a").format(new Date())); //updates the timeString
         dateString.setText(new SimpleDateFormat("EEE, MMM d").format(new Date())); //updates the dateString
     }
