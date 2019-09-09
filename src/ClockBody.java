@@ -12,12 +12,18 @@ public class ClockBody extends JPanel {
     private JLabel dateString;
     private final int BODY_SIZE = 300;
 
+    private final Shape BODY;
+    private final Shape[] LINES;
+
     public ClockBody(Rectangle bounds) {
         setBounds(bounds);
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
         //String with time in pre-made format
-        timeString = new JLabel(new SimpleDateFormat("hh:mm:ss a").format(new Date()));
+        String[] timeStringRaw = new SimpleDateFormat(": hh mm ss a").format(new Date()).split(" ");
+
+        //html label does not center despite it being centered.
+        timeString = new JLabel("<html><font color=red>"+ timeStringRaw[1] +"</font>"+ timeStringRaw[0] +"<font color=#00d400>"+ timeStringRaw[2] +"</font>"+ timeStringRaw[0] +"<font color=blue>"+ timeStringRaw[3] +"</font> "+ timeStringRaw[4] +"></html>");
         timeString.setAlignmentX(Component.CENTER_ALIGNMENT);
         timeString.setFont(new Font(timeString.getFont().getName(), timeString.getFont().getStyle(),40));
 
@@ -30,6 +36,14 @@ public class ClockBody extends JPanel {
         add(timeString);
         add(dateString);
 
+        BODY = new Ellipse2D.Double((getWidth() - BODY_SIZE) / 2,(getHeight() - BODY_SIZE) / 2 ,BODY_SIZE,BODY_SIZE); //Place the body in the X center of the frame
+
+        //Hour marker lines for the body
+        LINES = new Shape[60];
+        for(int i=0; i < LINES.length; i++) {
+            double angle = (i * 6) + 90;
+            LINES[i] = new Line2D.Double(getPointOf(angle,BODY_SIZE/2 - 15, Math.round(getWidth() /2), Math.round(getHeight() /2)),getPointOf(angle,BODY_SIZE/2,Math.round(getWidth() /2), Math.round(getHeight() /2)));
+        }
     }
 
     @Override
@@ -38,35 +52,23 @@ public class ClockBody extends JPanel {
         Graphics2D g2 = (Graphics2D) graphics;
 
         g2.setStroke(new BasicStroke(5));
-        Shape body = new Ellipse2D.Double((getWidth() - BODY_SIZE) / 2,(getHeight() - BODY_SIZE) / 2 ,BODY_SIZE,BODY_SIZE); //Place the body in the X center of the frame
-        g2.draw(body);
-
-        //Center Point Drawing
-        g2.fillOval(getWidth()/2 - 5, getHeight()/2 - 5,10,10);
-
-        //Hour marker lines for the body
-        Shape[] lines = new Shape[60];
-
-        for(int i=0; i < lines.length; i++) {
-
-            double angle = (i * 6) + 90;
-
-
-            lines[i] = new Line2D.Double(getPointOf(angle,BODY_SIZE/2 - 15, Math.round(getWidth() /2), Math.round(getHeight() /2)),getPointOf(angle,BODY_SIZE/2,Math.round(getWidth() /2), Math.round(getHeight() /2)));
-        }
+        g2.draw(BODY);
 
         //Draw each hour marker line
-        g2.setStroke(new BasicStroke(1));
-        for(Shape s : lines) {
-            g2.draw(s);
+        for(int i=0; i<LINES.length; i++) {
+            if(i % 5 == 0)
+                g2.setStroke(new BasicStroke(3));
+            else
+                g2.setStroke(new BasicStroke(1));
+            g2.draw(LINES[i]);
         }
 
-        g2.setStroke(new BasicStroke(3));
-        for(int i=0; i<lines.length; i+=5) {
-            g2.draw(lines[i]);
-        }
 
-        timeString.setText(new SimpleDateFormat("hh:mm:ss a").format(new Date())); //updates the timeString
+        String[] timeStringRaw = new SimpleDateFormat(": hh mm ss a").format(new Date()).split(" ");
+        timeString.setText("<html><font color=red>"+ timeStringRaw[1] +"</font>"+ timeStringRaw[0] +"<font color=#00d400>"+ timeStringRaw[2] +"</font>"+ timeStringRaw[0] +"<font color=blue>"+ timeStringRaw[3] +"</font> "+ timeStringRaw[4] +"</html>"); //updates the timeString
+        timeString.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
         dateString.setText(new SimpleDateFormat("EEE, MMM d").format(new Date())); //updates the dateString
     }
 
@@ -84,8 +86,8 @@ public class ClockBody extends JPanel {
 
      */
     public static Point2D.Double getPointOf(double angle, int radius, int x, int y) {
-    //Identify the offsets because math only words if centered on (0,0).
-   //Since the JFrame center is not (0,0) use the center as an offset.
+        //Identify the offsets because math only words if centered on (0,0).
+        //Since the JFrame center is not (0,0) use the center as an offset.
 
         double rads = Math.toRadians(angle); //Math.cos and Math.sin use radians for calculations
 
@@ -94,5 +96,9 @@ public class ClockBody extends JPanel {
         double yCoord = (double) (y - Math.sin(rads) * radius);
 
         return new Point2D.Double(xCoord, yCoord);
+    }
+
+    private void updateText() {
+
     }
 }

@@ -19,11 +19,11 @@ public class TriangleClock extends JFrame {
 
         ClockBody clockBody = new ClockBody(new Rectangle(0,0,getWidth(),getHeight()));
         clockBody.setOpaque(false);
-        bodyWrapper.add(clockBody,0);
+        bodyWrapper.add(clockBody,JLayeredPane.DEFAULT_LAYER);
 
         TriangleClockMechanism clockFace = new TriangleClockMechanism(new Rectangle(0,0,getWidth(),getHeight()));
         clockFace.setOpaque(false);
-        bodyWrapper.add(clockFace,1);
+        bodyWrapper.add(clockFace,JLayeredPane.MODAL_LAYER);
 
         setResizable(false);
         setVisible(true);
