@@ -69,6 +69,7 @@ public class ClockBody extends JPanel {
         String[] timeStringRaw = new SimpleDateFormat(": hh mm ss a").format(new Date()).split(" ");
         timeString.setText("<html><font color=red>"+ timeStringRaw[1] +"</font>"+ timeStringRaw[0] +"<font color=#00d400>"+ timeStringRaw[2] +"</font>"+ timeStringRaw[0] +"<font color=blue>"+ timeStringRaw[3] +"</font> "+ timeStringRaw[4] +"</html>"); //updates the timeString
         timeString.setAlignmentX(Component.CENTER_ALIGNMENT);
+        timeString.setHorizontalAlignment(SwingConstants.CENTER);
 
 
         dateString.setText(new SimpleDateFormat("EEE, MMM d").format(new Date())); //updates the dateString
@@ -98,9 +99,5 @@ public class ClockBody extends JPanel {
         double yCoord = (double) (y - Math.sin(rads) * radius);
 
         return new Point2D.Double(xCoord, yCoord);
-    }
-
-    private void updateText() {
-
     }
 }
